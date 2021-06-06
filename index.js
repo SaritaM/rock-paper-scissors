@@ -16,30 +16,30 @@ const playRound = ( comp, player ) => {
     case 'rock':
       switch (player) {
         case 'rock':
-          return 'Tie! Rock vs. Rock';
+          return 'tie';
         case 'paper':
-          return 'You lose! Rock vs. Paper';
+          return 'computer';
         case 'scissors':
-          return 'You win! Rock vs. Scissors';
+          return 'player';
       }
     case 'paper': {
       switch (player) {
         case 'rock':
-          return 'You lose! Paper vs. Rock';
+          return 'computer';
         case 'paper':
-          return 'Tie! Paper vs. Paper';
+          return 'tie';
         case 'scissors':
-          return 'You win! Paper vs. Scissors';
+          return 'player';
       }
     }
     case 'scissors': {
       switch (player) {
         case 'rock':
-          return 'You win! Scissors vs. Rock';
+          return 'player';
         case 'paper':
-          return 'You lose! Scissors vs. Paper';
+          return 'computer';
         case 'scissors':
-          return 'Tie! Scissors vs. Scissors';
+          return 'tie';
       }
     }
   }
@@ -54,10 +54,12 @@ const game = () => {
     const computerSelection = computerPlay();
     const playerSelection = prompt('Choose rock, paper, or scissors:').toLowerCase();
     
-    if (playRound(computerSelection, playerSelection).includes('win')) {
+    if (playRound(computerSelection, playerSelection) === 'player') {
       playerScore += 1;
-    } else if ( playRound(computerSelection, playerSelection).includes('lose') ) {
+      console.log(`Round ${i + 1}: You won`);
+    } else if ( playRound(computerSelection, playerSelection) === 'computer' ) {
       compScore += 1;
+      console.log(`Round ${i + 1}: Computer won`)
     }
   }
   //Tally scores
