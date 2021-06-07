@@ -1,14 +1,27 @@
+//Initialize game
+let compScore = 0;
+let playerScore = 0;
+let roundCount = 1;
+
+
+
+//Player click initiates round
+//- round count goes up by 1
+//- player choice logged, computer choice computed
+//- winner computed
+//- winner score adjusted
+//- if round count = 6, remove option to play next round, final tally delivered, offer new game
+
+
+const lookupTable = {
+  0: 'rock',
+  1: 'paper',
+  2: 'scissors'
+};
+
 const computerPlay = () => {
   const num = Math.floor(Math.random() * 3);
-
-  switch (num) {
-    case 0:
-      return 'rock';
-    case 1:
-      return 'paper';
-    case 2:
-      return 'scissors';
-  }
+  return lookupTable[num];
 };
 
 const playRound = ( comp, player ) => {
@@ -47,20 +60,20 @@ const playRound = ( comp, player ) => {
 
 const game = () => {
   //Play 5 rounds
-  let compScore = 0;
-  let playerScore = 0;
   for ( i = 0; i < 5; i++ ) {
     
     const computerSelection = computerPlay();
-    const playerSelection = prompt('Choose rock, paper, or scissors:').toLowerCase();
+    // const playerSelection = prompt('Choose rock, paper, or scissors:').toLowerCase();
+    const playerSelection = 'rock';
+    const roundNum = i + 1;
     
     if (playRound(computerSelection, playerSelection) === 'player') {
       playerScore += 1;
-      console.log(`Round ${i + 1}: You won`);
+      console.log(`Round ${roundNum}: You won`);
     } else if ( playRound(computerSelection, playerSelection) === 'computer' ) {
       compScore += 1;
-      console.log(`Round ${i + 1}: Computer won`)
-    }
+      console.log(`Round ${roundNum}: Computer won`)
+    } else { console.log(`Round ${roundNum}: Tie!`) }
   }
   //Tally scores
   if (playerScore > compScore) { return 'You won!' }
