@@ -1,17 +1,9 @@
-//Initialize game
 let compScore = 0;
 let playerScore = 0;
 let roundCount = 1;
 
-
-
-//Player click initiates round
-//- round count goes up by 1
-//- player choice logged, computer choice computed
-//- winner computed
-//- winner score adjusted
-//- if round count = 6, remove option to play next round, final tally delivered, offer new game
-
+const playerScoreOutput = document.querySelector('#playerScore');
+const compScoreOutput = document.querySelector('#compScore');
 
 const lookupTable = {
   0: 'rock',
@@ -19,66 +11,98 @@ const lookupTable = {
   2: 'scissors'
 };
 
+const initializeGame = () => {
+  compScore = 0;
+  playerScore = 0;
+  roundCount = 1;
+
+  document.querySelector('.results').classList.remove('active');
+  document.querySelector('.button-newGame').classList.remove('active');
+
+  updateScore();
+};
+
+const updateScore = () => {
+  playerScoreOutput.innerText = playerScore;
+  compScoreOutput.innerText = compScore;
+}
+
 const computerPlay = () => {
   const num = Math.floor(Math.random() * 3);
   return lookupTable[num];
 };
 
-const playRound = ( comp, player ) => {
+function playerPlay(e) {
+  let player;
+
+  if (Array.from(this.classList).includes('rock')) { player = 'rock' };
+  if (Array.from(this.classList).includes('paper')) { player = 'paper' };
+  if (Array.from(this.classList).includes('scissors')) { player = 'scissors' };
+
+  playRound(player);
+};
+
+const playRound = (player) => {
+  if (roundCount === 1) { document.querySelector('.results').classList.add('active') };
+  if (roundCount === 6) { return; }
+  const comp = computerPlay();
+  let winner;
+
   switch (comp) {
     case 'rock':
       switch (player) {
         case 'rock':
-          return 'tie';
+          winner = 'none';
+          break;
         case 'paper':
-          return 'computer';
+          winner = 'player';
+          break;
         case 'scissors':
-          return 'player';
+          winner = 'comp';
+          break;
       }
     case 'paper': {
       switch (player) {
         case 'rock':
-          return 'computer';
+          winner = 'comp';
+          break;
         case 'paper':
-          return 'tie';
+          winner = 'none';
+          break;
         case 'scissors':
-          return 'player';
+          winner = 'player';
+          break;
       }
     }
     case 'scissors': {
       switch (player) {
         case 'rock':
-          return 'player';
+          winner = 'player';
+          break;
         case 'paper':
-          return 'computer';
+          winner = 'comp';
+          break;
         case 'scissors':
-          return 'tie';
+          winner = 'none';
+          break;
       }
     }
   }
+
+  (winner === 'player') ? playerScore += 1 : compScore += 1;
+  roundCount += 1;
+  console.log(roundCount)
+  if (roundCount === 6) { document.querySelector('.button-newGame').classList.add('active') };
+  updateScore();
 };
 
-const game = () => {
-  //Play 5 rounds
-  for ( i = 0; i < 5; i++ ) {
-    
-    const computerSelection = computerPlay();
-    // const playerSelection = prompt('Choose rock, paper, or scissors:').toLowerCase();
-    const playerSelection = 'rock';
-    const roundNum = i + 1;
-    
-    if (playRound(computerSelection, playerSelection) === 'player') {
-      playerScore += 1;
-      console.log(`Round ${roundNum}: You won`);
-    } else if ( playRound(computerSelection, playerSelection) === 'computer' ) {
-      compScore += 1;
-      console.log(`Round ${roundNum}: Computer won`)
-    } else { console.log(`Round ${roundNum}: Tie!`) }
-  }
-  //Tally scores
-  if (playerScore > compScore) { return 'You won!' }
-  else if ( compScore > playerScore ) { return 'You lost!' }
-  else if ( compScore === playerScore ) { return 'Tie!' }
-};
+// Add event listeners to each weapon
+document.querySelectorAll('.weapon').forEach((weapon) => {
+  weapon.addEventListener('click', playerPlay);
+  // console.log(Array.from(weapon.classList));
+});
 
-console.log(game());
+// Add event listener to button
+document.querySelector('.button-newGame').addEventListener('click', initializeGame);
+
+initializeGame();
