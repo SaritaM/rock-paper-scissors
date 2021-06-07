@@ -29,8 +29,19 @@ const updateScore = () => {
 
 const computerPlay = () => {
   const num = Math.floor(Math.random() * 3);
+  console.log(lookupTable[num]);
   return lookupTable[num];
 };
+
+const playerWin = () => {
+  playerScore += 1;
+  updateScore();
+}
+
+const compWin = () => {
+  compScore += 1;
+  updateScore();
+}
 
 function playerPlay(e) {
   let player;
@@ -45,53 +56,22 @@ function playerPlay(e) {
 const playRound = (player) => {
   if (roundCount === 1) { document.querySelector('.results').classList.add('active') };
   if (roundCount === 6) { return; }
-  const comp = computerPlay();
-  let winner;
+  const compAns = computerPlay();
 
-  switch (comp) {
-    case 'rock':
-      switch (player) {
-        case 'rock':
-          winner = 'none';
-          break;
-        case 'paper':
-          winner = 'player';
-          break;
-        case 'scissors':
-          winner = 'comp';
-          break;
-      }
-    case 'paper': {
-      switch (player) {
-        case 'rock':
-          winner = 'comp';
-          break;
-        case 'paper':
-          winner = 'none';
-          break;
-        case 'scissors':
-          winner = 'player';
-          break;
-      }
-    }
-    case 'scissors': {
-      switch (player) {
-        case 'rock':
-          winner = 'player';
-          break;
-        case 'paper':
-          winner = 'comp';
-          break;
-        case 'scissors':
-          winner = 'none';
-          break;
-      }
-    }
+  if (compAns === 'rock') {
+    if( player === 'paper' ) { playerWin(); } 
+    if (player === 'scissors') { compWin(); }
+  }
+  if (compAns === 'paper') {
+    if ( player === 'rock' ) { compWin(); };
+    if ( player === 'scissors' ) { playerWin(); };
+  }
+  if ( compAns === 'scissors' ) {
+    if ( player === 'rock' ) { playerWin(); };
+    if ( player === 'paper' ) { compWin(); }
   }
 
-  (winner === 'player') ? playerScore += 1 : compScore += 1;
   roundCount += 1;
-  console.log(roundCount)
   if (roundCount === 6) { document.querySelector('.button-newGame').classList.add('active') };
   updateScore();
 };
