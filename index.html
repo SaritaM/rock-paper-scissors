@@ -2,10 +2,26 @@
 <html>
   <head>
     <title>Rock Paper Scissors</title>
+    <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
   </head>
-  <body>
-    Play me in the console!
+  <body class="page">
+    <section class="game">
+      <h1 class="title">Choose Your Weapon</h1>
+      <div class="weapons">
+        <div class="weapon weapon-1 rock"><span>Rock</span></div>
+        <div class="weapon weapon-2 paper"><span>Paper</span></div>
+        <div class="weapon weapon-3 scissors"><span>Scissors</span></div>
+      </div>
+      <div class="results active">
+        <div class="score-title">Official Score:</div>
+        <div class="scores">
+          <div class="score">You: <span id="playerScore">0</span></div>
+          <div class="score">Computer: <span id="compScore">0</span></div>
+        </div>
+        <a href="#" class="button button-newGame active">New Game</a>
+      </div>
+    </section>
   </body>
   <script src="index.js"></script>
 </html>
